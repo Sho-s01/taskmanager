@@ -1,0 +1,16 @@
+.header{
+    position:sticky;
+    top:0;
+    z-index:1040;
+    min-height: 4rem;
+    background-color: #20232a;
+}
+.headerElement{
+    display: flex;
+    justify-content: space-between;
+}
+.moveCenter{
+    padding-top: 1%;
+    padding-right:20px;
+    color:white;
+}

@@ -1,0 +1,76 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  thead{
+    background-color: #22223B;
+    color:white;
+    padding: 10px;
+  }
+  .card{
+   /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 100%;
+    border-radius: 5px; */
+    /* padding:2%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 80% !important;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-top:5%; */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 80%;
+    margin: 0 auto;
+    /* float: none; */
+    margin-bottom: 10px;
+    border-radius: 5px;
+    margin-top: 25px;
+    padding: 15px;
+  }
+  
+  .table-position{
+    margin-top:5%;
+  }
+  .form-control {
+    /* display: flex;
+    flex-direction: column;
+     margin-bottom: 15px;
+    margin-top: 15px;
+    margin-left: 20px; */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    margin-left:25px;
+  }
+
+  /* button{
+    min-width: 40%;
+  } */
+
+  .approval-card{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 80%;
+    margin: 0 auto;
+    /* float: none; */
+    margin-bottom: 10px;
+    border-radius: 5px;
+    margin-top: 25px;
+    padding: 15px;
+    
+
+   
+  }
+  .btn-grp{
+    display: flex;
+    width: 25%;
+    margin-left: 20px;
+    padding-bottom: 10px;
+  }
+
+  .align-label{
+    margin-left:15px;
+    font-weight:bold;
+  }

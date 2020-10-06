@@ -3,5 +3,17 @@
   "private": true,
   "devDependencies": {
     "lerna": "^3.22.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "install:all": "lerna bootstrap",
+    "start": "lerna run start --scope=servercode"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "fastify-static": "^2.7.0"
   }
 }
+
+  
