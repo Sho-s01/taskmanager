@@ -31,8 +31,6 @@ export default class Login extends React.Component {
     event.preventDefault();
     const { name, value } = event.target;
     let errors = this.state.errors;
-    console.log('taget val', event.target.value, 'name', event.target.name)
-
     switch (name) {
       case 'fullName':
         errors.fullName =
@@ -79,20 +77,18 @@ export default class Login extends React.Component {
               password: this.state.password
             }
           }).then((result) => {
-            console.log('result axios', result)
             let loginResponse = result.data.data.getUser[0]
-            // console.log('login response',loginResponse)
             localStorage.setItem('token', loginResponse.jwtToken)
             if (loginResponse.isValidUser && loginResponse.role == 'worker') {
               localStorage.setItem('role', loginResponse.role)
               localStorage.setItem('ID', loginResponse._id)
               this.props.history.push('/Workerdashboard')
-
             }
             else if (loginResponse.isValidUser && loginResponse.role == 'manager') {
               localStorage.setItem('role', loginResponse.role)
               localStorage.setItem('ID', loginResponse._id)
               this.props.history.push('/Managerdashboard')
+
             }
             else
               alert('Invalid Credentials')
@@ -100,62 +96,8 @@ export default class Login extends React.Component {
     } else {
       console.error('Invalid Form')
     }
-
-    //   axios({
-    //     method: 'get',
-    //     url: 'http://localhost:5000/login',
-    //     // data: formData,
-    //     headers: { 'user_code': 'shobana@gmail.com','password':'admin123'}
-    // })
-    // .then(function (response) {
-    //   console.log('response from Login BE',response)
-    // })
-    // .catch(function (response) {
-    //     //handle error
-    //     console.log('error resppp',response)
-    // });
-    // axios({
-    //   url:'http://localhost:5000/graphql',
-    //   method: 'get',
-    //   // 'Content-Type': 'application / json',
-    // //   headers: new Headers({
-    // //     'Content-Type': 'application/json',
-    // //     'Accept': 'application/json',
-    // // }),
-    // data: JSON.stringify({query}),
-    //   // data: {
-
-    //   // query:`query {
-    //   //   events{
-    //   //   name,_id,password,email
-    //   //   }}`
-    //   // }
-
-    // }).then((result) => {
-    //   console.log(result.data)
-    // })
-    // .catch((err)=>{
-    //   console.log('axios GET err',err)
-    // })
   }
-  test = (event) => {
-    event.preventDefault();
-    axiosInstance()
-      .get("login/test",
-        {
-          headers: {
-            user_code: 'shobana@gmail.com',
-            password: 'admin123'
-          }
-        })
-      .then((res) => {
-        console.log('response ', res)
 
-      })
-      .catch((err) => {
-        console.log('error--', err)
-      })
-  }
   render() {
     const { errors } = this.state;
     return (

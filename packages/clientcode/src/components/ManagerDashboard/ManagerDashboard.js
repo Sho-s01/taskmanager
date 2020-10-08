@@ -19,12 +19,7 @@ export default class ManagerDashboard extends React.Component {
       showApproval: false,
       taskToBeEdited: {},
       approvalRemarks: '',
-      workerLists: [],
-      filters: {
-        assignedTo: '',
-        approvalStatus: '',
-        filterTitle: ''
-      }
+      workerLists: []
     }
   }
   componentDidMount() {
@@ -54,24 +49,13 @@ export default class ManagerDashboard extends React.Component {
     AxiosInstance()
       .post("http://localhost:5000/graphql",
         {
-          // query: `
-          //     {
-          //       getTask {
-          //         _id,mappedName,createdBy,assignedTo,desc,title,deadline,task {              
-          //           approvalStatus
-          //           taskStatus
-          //           work                
-          //         }
-
-          //       }
-          //     }
-          // `
           query: `query($workerid:String) {
             getManagerTask(id:$workerid){
-          _id,mappedName,assignedBy,desc,title,deadline,task {
+          _id,mappedName,assignedBy,assignedTo,desc,title,deadline,task {
             approvalStatus
             taskStatus
-            work                
+            work      
+                    
           }
         }                          
     }`,
@@ -89,7 +73,6 @@ export default class ManagerDashboard extends React.Component {
       })
   }
   addTask() {
-    console.log('add task')
     this.setState({ isShowTaskRecord: false })
   }
 
@@ -100,7 +83,6 @@ export default class ManagerDashboard extends React.Component {
 
   handleChange(event) {
     event.preventDefault();
-    console.log('event target', event.target.name, 'value', event.target.value)
     const { name, value } = event.target
     this.setState({ [name]: value })
   }
@@ -135,13 +117,15 @@ export default class ManagerDashboard extends React.Component {
         })
       .then((result) => {
         console.log('response ', result.data)
+        this.getTaskLists()
+        this.setState({ isShowTaskRecord: true })
         // let tasksData=result.data.data.getTask
         // this.setState({existingTasks:tasksData})
       })
       .catch((err) => {
         console.log('error--', err)
       })
-    console.log('submit evnt', event)
+    // console.log('submit evnt', event)
 
   }
 
@@ -151,7 +135,7 @@ export default class ManagerDashboard extends React.Component {
     this.setState({ showApproval: true, isShowTaskRecord: false, taskToBeEdited: task })
   }
 
-  taskEvaluation(event, approvalStatus, taskRecord) {
+  taskEvaluation(event, approvalStatus) {
     event.preventDefault()
     console.log('approval sttaus', approvalStatus, 'remarks', this.state.approvalRemarks)
     AxiosInstance()
@@ -173,6 +157,7 @@ export default class ManagerDashboard extends React.Component {
         })
       .then((result) => {
         console.log('response ', result.data)
+        this.setState({ showApproval: false, isShowTaskRecord: true })
         this.getTaskLists()
         // let tasksData=result.data.data.getTask
         // this.setState({existingTasks:tasksData})
@@ -215,7 +200,7 @@ export default class ManagerDashboard extends React.Component {
                 )) : ''}
             </tbody>
           </table>
-          {this.state.existingTasks?.length == 0 ? <span>No tasks assigned</span> : ''}
+          {this.state.existingTasks?.length == 0 ? <div style={{ textAlign: "center", margin: "2%" }}><span>No tasks assigned</span></div> : ''}
 
 
         </div>
@@ -225,59 +210,47 @@ export default class ManagerDashboard extends React.Component {
       return (
         <div className="card">
           <h2 className="align-label"> Create Task</h2>
-          <div>
-          <form noValidate>
-            <div className='form-control'>
-              <label htmlFor="title">Title</label>
-              <input type='text'
-                name='title' onChange={(event) => this.handleChange(event)} noValidate />
-              {/* {errors.email.length > 0 && 
-        <span className='error'>{errors.email}</span>} */}
-            </div>
-            <div className='form-control'>
-              <label htmlFor="deadline">Task end date</label>
-              <DatePicker
-                selected={this.state.endDate}
-                onChange={(date) => this.handleDateChange(date)}
-              />
+          <div className="card-body">
+            <form noValidate>
+              <div className='form-control'>
+                <label >Title</label>
+                <input type='text'
+                  name='title' onChange={(event) => this.handleChange(event)} noValidate />
+              </div>
+              <div className='form-control'>
+                <label htmlFor="deadline">Task end date</label>
+                <DatePicker
+                  selected={this.state.endDate}
+                  onChange={(date) => this.handleDateChange(date)}
+                />              </div>
+              <div className='form-control' style={{minWidth:"70%"}}>
+                <label htmlFor="assignedTo">Assigned to</label>
+                <select className="role-select" onChange={(event) => {
+                  event.preventDefault();
+                  const { value } = event.target
+                  this.setState({ assignedTo: value })
+                }} >
+                   <option name="select" value="null"></option>
+                  {this.state.workerLists
+                    .map((worker) => (
+                      <option key={worker._id} value={worker._id}>{worker.name}</option>))}
+                </select>
+              </div>            
+              <div className='form-control'>
+                <label htmlFor="desc">Description</label>
+                <input type='text' name='desc' onChange={(event) => this.handleChange(event)} noValidate />                
+              </div>
+              <div className='btn-grp'>
+                <button  onClick={(event) => this.handleSubmit(event)}>Save</button>
+                <button  onClick={() => {
+                  this.setState({ isShowTaskRecord: true })
+                  this.getTaskLists()
+                }}>Back</button>
 
-              {/* <input type='text' name='deadline' onChange={this.handleChange} noValidate />         */}
-            </div>
-            <div className='form-control'>
-              <label htmlFor="assignedTo">Assigned to</label>
-              <select onChange={(event) => {
-                event.preventDefault();
-                console.log('evenr', event.target.value)
-                const { value } = event.target
-                this.setState({ assignedTo: value })
-              }} >
-                {/* <option name="select" value="null"></option>
-                  <option name="manager" value="manager">Manager</option>
-                  <option name="worker" value="worker">Worker</option> */}
-                {this.state.workerLists
-                  .map((worker) => (
-                    <option key={worker._id} value={worker._id}>{worker.name}</option>))}
-              </select>
-            </div>
-            {/* <input type='text' name='assingedTo' onChange={(event)=>this.handleChange(event)} noValidate />          */}
+              </div>
+            </form>
 
-            {/* </div>     */}
-            <div className='form-control'>
-              <label htmlFor="desc">Description</label>
-              <input type='text' name='desc' onChange={(event) => this.handleChange(event)} noValidate />
-              {/* {errors.password.length > 0 && 
-        <span className='error'>{errors.password}</span>} */}
-            </div>
-            <div className='submit'>
-              <button className="" onClick={(event) => this.handleSubmit(event)}>Save</button>
-              <button className="" onClick={() => {
-                this.setState({ isShowTaskRecord: true })
-              }}>Back</button>
-
-            </div>
-          </form>
-
-</div>
+          </div>
         </div>
       )
     }
@@ -286,28 +259,31 @@ export default class ManagerDashboard extends React.Component {
         <div className="approval-card">
           <h2 className="align-label"> Work Evaluation</h2>
           <div className="form-control">
-            <label htmlFor="title">Title: {this.state.taskToBeEdited.title}</label>
+            <label >Title: {this.state.taskToBeEdited.title}</label>
             {/* <label></label> */}
           </div>
           <div className="form-control">
-            <label htmlFor="title">Assigned To: {this.state.taskToBeEdited.mappedName}</label>
+            <label >Assigned To: {this.state.taskToBeEdited.mappedName}</label>
           </div>
           <div className="form-control">
-            <label htmlFor="title">Deadline: {new Date(+this.state.taskToBeEdited.deadline).toLocaleDateString()}</label>
+            <label >Deadline: {new Date(+this.state.taskToBeEdited.deadline).toLocaleDateString()}</label>
           </div>
           <div className="form-control">
-            <label htmlFor="title">Work done:
+            <label >Work done:
                 {this.state.taskToBeEdited.task.work}
             </label>
           </div>
+          {/* <div className="form-control">
+            <label >Submitted On: {this.state.taskToBeEdited.task.submittedOn}</label>
+          </div> */}
           <div className="form-control">
-            <label htmlFor="title">Task Status: {this.state.taskToBeEdited.task.taskStatus}</label>
+            <label >Task Status: {this.state.taskToBeEdited.task.taskStatus}</label>
           </div>
           <div className="form-control">
-            <label htmlFor="title">Approval Status: {this.state.taskToBeEdited.task.approvalStatus}</label>
+            <label >Approval Status: {this.state.taskToBeEdited.task.approvalStatus}</label>
           </div>
           <div className="form-control">
-            <label htmlFor="title">Description: {this.state.taskToBeEdited.desc}</label>
+            <label >Description: {this.state.taskToBeEdited.desc}</label>
           </div>
           <div className="form-control">
             <label htmlFor="evaluationRemarks">Remarks</label>
@@ -318,8 +294,8 @@ export default class ManagerDashboard extends React.Component {
           </div>
           {/* <div>kl{this.state.approvalRemarks?false:true}</div> */}
           <div className="btn-grp">
-            <button disabled={true} onClick={(event) => this.taskEvaluation(event, 'approved')}>Approve</button>
-            <button disabled={this.state.approvalRemarks ? false : true} onClick={(event) => this.taskEvaluation(event, 'rejected')}>Reject </button>
+            <button  onClick={(event) => this.taskEvaluation(event, 'approved')}>Approve</button>
+            <button  onClick={(event) => this.taskEvaluation(event, 'rejected')}>Reject </button>
             <button onClick={(event) => this.setState({ showApproval: false, isShowTaskRecord: true })}>Back</button>
           </div>
         </div>

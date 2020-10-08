@@ -1,22 +1,17 @@
 import axios from "axios";
 
-export default (history = null) => {
+export default () => {
   const baseURL = 'http://localhost:5000/';
-
-
   let headers = {};
-
   if (localStorage.getItem('token')) {
     headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
   }
-  console.log('baseurl', baseURL, 'heders', headers)
   const axiosInstance = axios.create({
     baseURL: baseURL,
     headers,
   });
 
   axiosInstance.interceptors.request.use(function (config) {
-    console.log('config--', config)
     if (localStorage.getItem('token'))
       config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
     return config;
@@ -31,15 +26,11 @@ export default (history = null) => {
     console.log('Http Error', error.response)
     if (error.response.status == 401) {
       let msg = 'Authentication error';
-      console.log('Authentication error', error.response.data.msg)
-      localStorage.clear();
-      // this.route.navigate(['/auth/login']);
+      console.log('Authentication error', error.response.data.msg); 
     }
     else if (error.response.status == 403) {
       console.log('Unauthorized request', error.response.data.msg)
-      let msg = ''
-      localStorage.clear();
-      // this.route.navigate(['/auth/login']);
+           
     }
     return Promise.reject(error.response.status);
   });

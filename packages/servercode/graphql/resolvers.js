@@ -79,7 +79,7 @@ module.exports = {
       {
         $lookup: {
           from: "users",
-          localField: "assignedBy",
+          localField: "assignedTo",
           foreignField: "_id",
           as: "user"
         }
@@ -109,7 +109,7 @@ module.exports = {
       {
         $lookup: {
           from: "users",
-          localField: "assignedTo",
+          localField: "assignedBy",
           foreignField: "_id",
           as: "user"
         }
@@ -174,7 +174,7 @@ module.exports = {
   },
   managerTaskApproval: (args) => {
     return task.updateOne({ "_id": new ObjectID(args.taskId) },
-      { 'Task-record': args.input })
+      { 'Task-record.approvalStatus': args.input.approvalStatus,'Task-record.evaluationRemarks': args.input.evaluationRemarks})
       .then(result => {
         console.log('approve result-----------', result);
         return true
@@ -190,7 +190,9 @@ module.exports = {
   workerTaskUpload: (args) => {
     console.log('worker task upload', args)
     return task.updateOne({ "_id": new ObjectID(args.taskId) },
-      { 'Task-record.taskStatus': args.input.taskStatus, 'Task-record.work': args.input.work })
+      { 'Task-record.taskStatus': args.input.taskStatus, 'Task-record.work': args.input.work,
+        'Task-record.submittedOn':new Date()
+    })
       .then(result => {
         console.log('task upload-----------', result);
         return true

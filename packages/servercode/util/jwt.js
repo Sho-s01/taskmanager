@@ -16,7 +16,7 @@ let getuserId = function (token) {
 
 let generateLoginAuthToken = function (uid) {
   return new Promise((resolve, reject) => {
-    jwt.sign({ uid }, secret, { expiresIn: '1h' }, (err, token) => {
+    jwt.sign({ uid }, secret, { expiresIn: '2h' }, (err, token) => {
       if (err) {
         console.log('Error in generating JWT token', err)
         reject(err);

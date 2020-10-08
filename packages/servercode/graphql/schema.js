@@ -27,12 +27,14 @@ module.exports=`
             taskStatus:String
             work:String
             evaluationRemarks:String
+            submittedOn:String
           }
           input taskRecordInput{
             approvalStatus:String
             taskStatus:String
             work:String
             evaluationRemarks:String
+            submittedOn:String
           }
           type task {   
             _id:ID!

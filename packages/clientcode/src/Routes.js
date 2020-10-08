@@ -13,9 +13,10 @@ const NoMatch = ({ location }) => (
     <h3>No match for <code>{location.pathname}</code></h3>
   </div>
 );
+
 const Routes = () => (
   <Switch>
-    <Route path="/" exact component={WorkerDashboard} />
+    <Route path="/" exact component={Login} />
     <Route path="/SignUp" exact component={SignUp} />
     <Route path="/Workerdashboard" exact component={WorkerDashboard} />
     <Route path="/Managerdashboard" exact component={ManagerDashboard} />
