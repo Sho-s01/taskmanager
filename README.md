@@ -1,4 +1,4 @@
-# taskmanager  
+# Taskmanager  
 * **Manager**
   - Able to login/signup with email and password
   - Able to create/edit the tasks
