@@ -3,26 +3,19 @@ const task = require('../model/task');
 var ObjectID = require('mongodb').ObjectID;
 var crypt = require('../util/cryptify')
 var jwt = require('../util/jwt');
-const { concat } = require('./schema');
+
 module.exports = {
   getUser: (args) => {
-    // console.log('Argss-->',args,'enn',crypt.decrypt('03e0c622241cbd8ef559b8441827e48e:0250d86629976e8d3d8e0d15e85e747f'))
     return users.find({ email: args.email })
       .then(events => {
         return events.map(event => {
-          console.log('args event--->', args.password, 'pas', event)
           if (args.password == crypt.decrypt(event.password)) {
             return jwt.generateLoginAuthToken(args.email).then((data) => {
-              //         console.log('JWT generatated token',data)
-              //         res.json({userData:resp,jwt:data})
-              // })
-              // console.log('jwtttt',data,'tyyyy',typeof data)
               return {
                 ...event._doc, _id: event.id, isValidUser: true,
                 jwtToken: data
               }
             });
-            console.log('afterer')
           }
           else {
             return { isValidUser: false }
@@ -92,7 +85,6 @@ module.exports = {
       }
     ])
       .then(task => {
-        console.log('taskkk', task)
         return task.map(event => {
           return { ...event, mappedName: event.user.name, _id: event._id, task: event['Task-record'] };
         });
@@ -123,7 +115,6 @@ module.exports = {
     ])
       // return task.find({assignedTo:new ObjectID(args.id)})
       .then(task => {
-        console.log('taskkk', task)
         return task.map(event => {
           return { ...event, mappedName: event.user.name, _id: event._id, task: event['Task-record'] };
         });
@@ -164,7 +155,6 @@ module.exports = {
     return taskData
       .save()
       .then(result => {
-        console.log('result-----------', result);
         return { ...result._doc, _id: result._doc._id.toString() };
       })
       .catch(err => {
@@ -174,9 +164,8 @@ module.exports = {
   },
   managerTaskApproval: (args) => {
     return task.updateOne({ "_id": new ObjectID(args.taskId) },
-      { 'Task-record.approvalStatus': args.input.approvalStatus,'Task-record.evaluationRemarks': args.input.evaluationRemarks})
+      { 'Task-record.approvalStatus': args.input.approvalStatus, 'Task-record.evaluationRemarks': args.input.evaluationRemarks })
       .then(result => {
-        console.log('approve result-----------', result);
         return true
         // return result
       })
@@ -188,13 +177,12 @@ module.exports = {
 
   },
   workerTaskUpload: (args) => {
-    console.log('worker task upload', args)
     return task.updateOne({ "_id": new ObjectID(args.taskId) },
-      { 'Task-record.taskStatus': args.input.taskStatus, 'Task-record.work': args.input.work,
-        'Task-record.submittedOn':new Date()
-    })
+      {
+        'Task-record.taskStatus': args.input.taskStatus, 'Task-record.work': args.input.work,
+        'Task-record.submittedOn': new Date()
+      })
       .then(result => {
-        console.log('task upload-----------', result);
         return true
         // return result
       })

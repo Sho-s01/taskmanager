@@ -29,14 +29,10 @@ app.use(
 
 app.use((req, res, next) => {
   let token = req.headers.authorization && req.headers.authorization.split(' ')
-  // console.log('token--------',req.headers.authorization)
   if (token && token[1] && token[1] != "null") {
     jwt.verifyToken(token[1]).then((data) => {
-      console.log('DATA', data)
       return next();
     }).catch((err) => {
-      // Log.logger.error('Unauthorized request ---'+ err,{'stacktrace': Log.formatLogArguments()})
-      console.log('Unauthorized request ---', err)
       if (err.name == "TokenExpiredError") {
         res.status(403)
           .json({ msg: "Token expired" })
@@ -57,6 +53,7 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../clientcode/build', 'index.html'))
 })
+
 
 // app.use('/login',require('./routes/login'))
 mongoose.connect("mongodb://localhost:27017/taskmanager", { useNewUrlParser: true, useUnifiedTopology: true })

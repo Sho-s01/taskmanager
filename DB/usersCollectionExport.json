@@ -1,0 +1,7 @@
+{"_id":{"$oid":"5f65e212b3df9f1aafe54d8c"},"name":"Anju","email":"anju@gma.com","password":"a0562f9562c568d52fb7e2b8b356d350:e1f2576e9992041a11ccd7c65d21cc21","__v":0,"role":"worker"}
+{"_id":{"$oid":"5f65e21ab3df9f1aafe54d8d"},"name":"asha","email":"asha@gmail.com","password":"a0562f9562c568d52fb7e2b8b356d350:e1f2576e9992041a11ccd7c65d21cc21","__v":0,"role":"worker"}
+{"_id":{"$oid":"5f67ae7e74c34e69b061420a"},"name":"monika","email":"monika@gmail.com","password":"a0562f9562c568d52fb7e2b8b356d350:e1f2576e9992041a11ccd7c65d21cc21","__v":0,"role":"worker"}
+{"_id":{"$oid":"5f67aef72fc4d56a14cccc30"},"name":"maha","email":"maha@gmail.com","password":"a0562f9562c568d52fb7e2b8b356d350:e1f2576e9992041a11ccd7c65d21cc21","__v":0,"role":"worker"}
+{"_id":{"$oid":"5f7270b54628c63891b8cfc5"},"name":"Shobana","email":"shobana@gmail.com","password":"a0562f9562c568d52fb7e2b8b356d350:e1f2576e9992041a11ccd7c65d21cc21","role":"manager","__v":0}
+{"_id":{"$oid":"5f78ed61dc790476818180f5"},"name":"Nivetha","email":"nivee@gmail.com","password":"a0562f9562c568d52fb7e2b8b356d350:e1f2576e9992041a11ccd7c65d21cc21","role":"manager","__v":0}
+{"_id":{"$oid":"5f7ebea2c284bd02c87c60e6"},"name":"Sushmitha","email":"sushmitha@gmail.com","password":"959cc04de0993947d3e5ef2933608dd7:441b9c115829da679d89e3169d1d8aef","role":"worker","__v":0}
