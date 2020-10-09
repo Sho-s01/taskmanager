@@ -7,7 +7,7 @@ const Header = (props) => {
     return (
         <div className="header">
             <div className="headerElement">
-                <h2 style={{ color: "white" }}>Task Tracker</h2>
+                <h2 style={{ color: "white",margin:"auto" }}>Task Tracker</h2>
                 <div className="moveCenter">{
                     localStorage.getItem('token') ?
                         <Link to="/login" style={{ color: "white" }}

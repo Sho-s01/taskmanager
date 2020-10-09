@@ -69,7 +69,7 @@ export default class WorkerDashboard extends React.Component {
           }
         })
       .then((result) => {
-        console.log('tasklist response----------> ', result.data.data.getWorkerTask)
+        // console.log('tasklist response----------> ', result.data.data.getWorkerTask)
         this.setState({ taskLists: result.data.data.getWorkerTask })
       })
       .catch((err) => {
@@ -79,8 +79,8 @@ export default class WorkerDashboard extends React.Component {
   render() {
     if (this.state.listTask && !this.state.editTask) {
       return (
-        <div className="card">
-          <label style={{ display: 'block', paddingTop: "20px" }}>  All Tasks</label>
+        <div className="card" >
+          <h2 style={{ textAlign: "center", paddingTop: "20px" }}> Tasks List</h2>
           <table className="table-position">
             <thead>
               <tr>
@@ -107,9 +107,8 @@ export default class WorkerDashboard extends React.Component {
                 )) : ''}
             </tbody>
           </table>
-          {this.state.taskLists?.length == 0 ? <div style={{ textAlign: "center", margin: "2%" }}><span>No tasks assigned</span></div> : ''}
-
-        </div>
+          { this.state.taskLists?.length == 0 ? <div style={{ textAlign: "center", margin: "2%" }}><span>No tasks assigned</span></div> : '' }
+        </div >
       )
     }
     else if (this.state.editTask && !this.state.listTask) {
@@ -137,7 +136,7 @@ export default class WorkerDashboard extends React.Component {
             </div>
           </div>
           <div>
-            <h2 style={{ "padding-left": "10px" }}>Work Progress</h2>
+            <h2 style={{ paddingLeft: "10px" }}>Work Progress</h2>
             <div className="form-control">
               <label htmlFor="evaluationRemarks">Work Status</label>
               <select style={{ width: "25%", height: "30px" }} onChange={
